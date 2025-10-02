@@ -1,0 +1,26 @@
+{
+  "name": "react-component-dashboard",
+  "version": "1.0.0",
+  "description": "A dashboard for hosting and testing standalone React components.",
+  "private": true,
+  "scripts": {
+    "start": "http-server -p 8000",
+    "lint": "eslint . --ext .js,.jsx",
+    "lint:fix": "eslint . --ext .js,.jsx --fix",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,json,md}\"",
+    "test": "python scripts/verify_all.py"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.3.0",
+    "@playwright/test": "1.40.1",
+    "eslint": "^9.3.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^5.0.0-canary-a3c36ac-20240522",
+    "globals": "^15.3.0",
+    "http-server": "14.1.1",
+    "prettier": "3.2.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
