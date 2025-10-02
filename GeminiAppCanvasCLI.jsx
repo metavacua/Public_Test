@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+// React is loaded globally from the CDN, so no import is needed.
 
 // Main App Component
-export default function App() {
-  const [history, setHistory] = useState([
+function App() {
+  const [history, setHistory] = React.useState([
     {
       command: 'welcome',
       output: 'CLI restored. All tools, including the advanced `probe` and deep `fibertree` commands, are now fully functional.',
     },
   ]);
-  const [command, setCommand] = useState('');
-  const terminalRef = useRef(null);
-  const appRootRef = useRef(null);
+  const [command, setCommand] = React.useState('');
+  const terminalRef = React.useRef(null);
+  const appRootRef = React.useRef(null);
 
   // --- Start of Advanced Probe Helpers ---
   const runTest = async (title, testFn) => {
@@ -267,7 +267,7 @@ export default function App() {
     if (e.key === 'Enter') { e.preventDefault(); processCommand(command); setCommand(''); }
   };
   
-  useEffect(() => { terminalRef.current?.scrollTo(0, terminalRef.current.scrollHeight); }, [history]);
+  React.useEffect(() => { terminalRef.current?.scrollTo(0, terminalRef.current.scrollHeight); }, [history]);
 
   return (
     <div ref={appRootRef} className="bg-black text-white font-mono h-screen p-4 flex flex-col">
@@ -302,3 +302,9 @@ export default function App() {
     </div>
   );
 }
+
+// --- Self-Rendering Logic ---
+// This code will be executed after the App function is defined.
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
+root.render(React.createElement(App));
