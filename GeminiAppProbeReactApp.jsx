@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+// React is loaded globally from the CDN.
 
 // --- Firebase Imports (dynamically loaded for robustness) ---
 let initializeApp, getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, 
@@ -26,8 +26,8 @@ const decodeJwt = (token) => {
 };
 
 const useConsoleCapture = () => {
-    const [consoleOutput, setConsoleOutput] = useState([]);
-    useEffect(() => {
+    const [consoleOutput, setConsoleOutput] = React.useState([]);
+    React.useEffect(() => {
         const originalConsole = { log: console.log, warn: console.warn, error: console.error, info: console.info, debug: console.debug };
         const formatArgs = (args) => Array.from(args).map(arg => {
             try {
@@ -66,24 +66,24 @@ const PlayCircleIcon = ({ className }) => (<svg xmlns="http://www.w3.org/2000/sv
 const ShieldIcon = ({ className }) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>);
 
 // --- Main App Component ---
-export default function App() {
+window.GeminiAppProbeReactAppApp = function App() {
     const [consoleOutput, setConsoleOutput] = useConsoleCapture();
-    const [activeTab, setActiveTab] = useState('environment');
-    const [isLoading, setIsLoading] = useState(false);
-    const [isSuiteRunning, setIsSuiteRunning] = useState(false);
-    const [includeGeminiAnalysis, setIncludeGeminiAnalysis] = useState(true);
+    const [activeTab, setActiveTab] = React.useState('environment');
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [isSuiteRunning, setIsSuiteRunning] = React.useState(false);
+    const [includeGeminiAnalysis, setIncludeGeminiAnalysis] = React.useState(true);
     
     // --- All Test States ---
-    const [introspectionResult, setIntrospectionResult] = useState({});
-    const [apiResults, setApiResults] = useState({});
-    const [geminiApiResponse, setGeminiApiResponse] = useState(null);
-    const [geminiPrompt, setGeminiPrompt] = useState('Please analyze the following JSON log from a comprehensive web environment prober. Summarize the key findings, capabilities, and limitations.');
-    const [firestoreState, setFirestoreState] = useState({ status: 'uninitialized', userId: null, error: null, entries: [] });
-    const [newMessage, setNewMessage] = useState('');
-    const [urlToFetch, setUrlToFetch] = useState('https://dbpedia.org/sparql');
-    const [privateData, setPrivateData] = useState(null);
+    const [introspectionResult, setIntrospectionResult] = React.useState({});
+    const [apiResults, setApiResults] = React.useState({});
+    const [geminiApiResponse, setGeminiApiResponse] = React.useState(null);
+    const [geminiPrompt, setGeminiPrompt] = React.useState('Please analyze the following JSON log from a comprehensive web environment prober. Summarize the key findings, capabilities, and limitations.');
+    const [firestoreState, setFirestoreState] = React.useState({ status: 'uninitialized', userId: null, error: null, entries: [] });
+    const [newMessage, setNewMessage] = React.useState('');
+    const [urlToFetch, setUrlToFetch] = React.useState('https://dbpedia.org/sparql');
+    const [privateData, setPrivateData] = React.useState(null);
     
-    const firebaseApp = useRef(null);
+    const firebaseApp = React.useRef(null);
 
 
     const GEMINI_API_KEY = ""; // Keep blank per Canvas instructions
@@ -116,7 +116,7 @@ export default function App() {
     };
     
     // --- Introspection Logic ---
-    const runIntrospection = useCallback(() => {
+    const runIntrospection = React.useCallback(() => {
         const { __app_id, __firebase_config, __initial_auth_token } = typeof window !== 'undefined' ? window : {};
         const decodedToken = __initial_auth_token ? decodeJwt(__initial_auth_token) : 'N/A';
         setIntrospectionResult({
@@ -129,7 +129,7 @@ export default function App() {
         });
     }, []);
 
-    useEffect(() => {
+    React.useEffect(() => {
         runIntrospection();
     }, [runIntrospection]);
     
@@ -363,7 +363,7 @@ export default function App() {
     };
     
     // --- Firestore Logic ---
-    const initFirestore = useCallback(async () => {
+    const initFirestore = React.useCallback(async () => {
         if (firebaseApp.current) {
             const auth = getAuth(firebaseApp.current);
             if (auth.currentUser) {
@@ -416,11 +416,11 @@ export default function App() {
         }
     }, []);
 
-    useEffect(() => {
+    React.useEffect(() => {
         initFirestore();
     }, [initFirestore]);
     
-    useEffect(() => {
+    React.useEffect(() => {
         if (firestoreState.status.startsWith('authenticated') && firebaseApp.current) {
             const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
             const db = getFirestore(firebaseApp.current);
@@ -517,8 +517,8 @@ export default function App() {
 
     // --- Panel Renderers ---
     const InfoCard = ({ title, children, status, copyText }) => {
-        const [isCopied, setIsCopied] = useState(false);
-        const [isExpanded, setIsExpanded] = useState(false);
+        const [isCopied, setIsCopied] = React.useState(false);
+        const [isExpanded, setIsExpanded] = React.useState(false);
         const statusColor = status === 'success' ? 'border-green-500' : status === 'error' ? 'border-red-500' : status === 'warning' ? 'border-yellow-500' : 'border-slate-600';
         const content = (typeof children === 'object' && children !== null) ? JSON.stringify(children, null, 2) : String(children);
         const canExpand = content.length > 150;

@@ -1,15 +1,15 @@
-import React, { useState, useCallback } from 'react';
+// React is loaded globally from the CDN.
 
 // Main App component for the JavaScript Introspector
-function App() {
+window.GeminiAppJavascriptIntrospectorApp = function App() {
   // State for the JavaScript code input by the user
-  const [jsCode, setJsCode] = useState('');
+  const [jsCode, setJsCode] = React.useState('');
   // State for the introspection results (functions and variables found from code input)
-  const [introspectionResult, setIntrospectionResult] = useState(null);
+  const [introspectionResult, setIntrospectionResult] = React.useState(null);
   // State for the environment introspection results
-  const [envIntrospectionResult, setEnvIntrospectionResult] = useState(null);
+  const [envIntrospectionResult, setEnvIntrospectionResult] = React.useState(null);
   // State for the current active tab in the meta-data panel ('devlog', 'changelog', 'about', 'known-bugs', 'environment')
-  const [activeMetaTab, setActiveMetaTab] = useState('about');
+  const [activeMetaTab, setActiveMetaTab] = React.useState('about');
   // Hardcoded semantic version for the application - Patch version bump for improved error handling/guidance
   const appVersion = "2.3.2"; // Incremented for improved error handling/guidance
 
@@ -242,7 +242,7 @@ function App() {
    * Copies the introspection results (functions and variables) to the clipboard as a JSON string.
    * Provides user feedback via a temporary message box.
    */
-  const copyResultsToClipboard = useCallback(() => {
+  const copyResultsToClipboard = React.useCallback(() => {
     // Determine which results to copy based on the active tab, or provide a default
     const resultsToCopy = activeMetaTab === 'environment' && envIntrospectionResult
       ? envIntrospectionResult
@@ -284,7 +284,7 @@ function App() {
    * Downloads the introspection results as a JSON file.
    * The filename is `js-introspector-results-<timestamp>.json`.
    */
-  const downloadResults = useCallback(() => {
+  const downloadResults = React.useCallback(() => {
     // Determine which results to download based on the active tab, or provide a default
     const resultsToDownload = activeMetaTab === 'environment' && envIntrospectionResult
       ? envIntrospectionResult
@@ -896,4 +896,4 @@ function App() {
   );
 }
 
-export default App;
+// No export needed, component is assigned to window

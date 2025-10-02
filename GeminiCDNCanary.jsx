@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+// React is loaded globally from the CDN.
 
 // --- Helper Functions ---
 const getTimestamp = () => new Date().toISOString().split('T')[1].slice(0, -1);
@@ -46,21 +46,21 @@ const initialTestCases = [
 
 
 // --- The Main Application Component ---
-const App = () => {
-  const [testCases, setTestCases] = useState(initialTestCases);
-  const [activeTestId, setActiveTestId] = useState(testCases[0].id);
+window.GeminiCDNCanaryApp = () => {
+  const [testCases, setTestCases] = React.useState(initialTestCases);
+  const [activeTestId, setActiveTestId] = React.useState(testCases[0].id);
   
-  const [analysisLog, setAnalysisLog] = useState([]);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [copySuccess, setCopySuccess] = useState('');
-  const originalsRef = useRef({});
+  const [analysisLog, setAnalysisLog] = React.useState([]);
+  const [isAnalyzing, setIsAnalyzing] = React.useState(false);
+  const [copySuccess, setCopySuccess] = React.useState('');
+  const originalsRef = React.useRef({});
 
-  const [testResults, setTestResults] = useState({});
+  const [testResults, setTestResults] = React.useState({});
 
-  const [showGenerator, setShowGenerator] = useState(false);
-  const [hypothesis, setHypothesis] = useState('');
-  const [newTestName, setNewTestName] = useState('');
-  const [newTestUrl, setNewTestUrl] = useState('');
+  const [showGenerator, setShowGenerator] = React.useState(false);
+  const [hypothesis, setHypothesis] = React.useState('');
+  const [newTestName, setNewTestName] = React.useState('');
+  const [newTestUrl, setNewTestUrl] = React.useState('');
 
   const currentConfig = testCases.find(t => t.id === activeTestId) || testCases[0];
 
@@ -85,17 +85,17 @@ const App = () => {
       setNewTestUrl('');
   };
   
-  const autoPopulateGenerator = useCallback((failedTest) => {
+  const autoPopulateGenerator = React.useCallback((failedTest) => {
       setShowGenerator(true);
       setHypothesis(`The previous test '${failedTest.name}' failed. My new hypothesis is that...`);
       setNewTestName(`Fix attempt for: ${failedTest.name}`);
       setNewTestUrl(failedTest.url);
   }, []);
 
-  const setupProxies = useCallback(() => { /* Omitted for brevity */ }, []);
-  const teardownProxies = useCallback(() => { /* Omitted for brevity */ }, []);
+  const setupProxies = React.useCallback(() => { /* Omitted for brevity */ }, []);
+  const teardownProxies = React.useCallback(() => { /* Omitted for brevity */ }, []);
 
-  const handleStop = useCallback((status) => {
+  const handleStop = React.useCallback((status) => {
     teardownProxies();
     setIsAnalyzing(false);
     setTestResults(prev => ({...prev, [activeTestId]: status}));
@@ -306,4 +306,4 @@ const App = () => {
   );
 };
 
-export default App;
+// No export needed, component is assigned to window

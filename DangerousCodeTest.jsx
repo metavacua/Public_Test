@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+// React is loaded globally from the CDN.
 
 // The default payload is the user's provided code.
 const defaultDangerousSnippet = `
@@ -65,20 +65,20 @@ try {
 `;
 
 // --- The Main Harness Application ---
-const App = () => {
-  const [lastCrashReport, setLastCrashReport] = useState(null);
-  const [log, setLog] = useState([]);
-  const [isRunning, setIsRunning] = useState(false);
-  const [testSnippet, setTestSnippet] = useState(defaultDangerousSnippet.trim());
-  const [copySuccess, setCopySuccess] = useState('');
-  const iframeRef = useRef(null);
+window.DangerousCodeTestApp = function App() {
+  const [lastCrashReport, setLastCrashReport] = React.useState(null);
+  const [log, setLog] = React.useState([]);
+  const [isRunning, setIsRunning] = React.useState(false);
+  const [testSnippet, setTestSnippet] = React.useState(defaultDangerousSnippet.trim());
+  const [copySuccess, setCopySuccess] = React.useState('');
+  const iframeRef = React.useRef(null);
 
   const addLog = (message, status = 'INFO', data = null) => {
       const timestamp = new Date().toISOString().split('T')[1].slice(0, -1);
       setLog(prev => [{ id: Date.now() + Math.random(), timestamp, status, message, data }, ...prev]);
   };
   
-  useEffect(() => {
+  React.useEffect(() => {
     const handleMessage = (event) => {
       if (iframeRef.current && event.source !== iframeRef.current.contentWindow) return;
       
@@ -269,4 +269,4 @@ const App = () => {
   );
 };
 
-export default App;
+// No export needed, component is assigned to window

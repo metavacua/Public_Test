@@ -1,7 +1,7 @@
 // React is loaded globally from the CDN, so no import is needed.
 
 // Main App Component
-function App() {
+window.GeminiAppCanvasCLIApp = function App() {
   const [history, setHistory] = React.useState([
     {
       command: 'welcome',
@@ -303,8 +303,4 @@ function App() {
   );
 }
 
-// --- Self-Rendering Logic ---
-// This code will be executed after the App function is defined.
-const container = document.getElementById('root');
-const root = ReactDOM.createRoot(container);
-root.render(React.createElement(App));
+// No self-rendering logic needed. The dashboard handles rendering.

@@ -3,18 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>React Component Runner</title>
+  <title>Component Dashboard</title>
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-      background-color: #000;
-      color: #fff;
-      font-family: sans-serif;
+      background-color: #1a202c;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
-    #root {
+    #dashboard-root {
+      display: flex;
+      flex-direction: column;
       height: 100%;
+    }
+    .loader-ui {
+      padding: 1rem;
+      background-color: #2d3748;
+      border-bottom: 2px solid #4a5568;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .loader-ui label {
+      font-weight: bold;
+    }
+    .loader-ui select {
+      padding: 0.5rem;
+      background-color: #1a202c;
+      color: #e2e8f0;
+      border: 1px solid #4a5568;
+      border-radius: 0.25rem;
+      flex-grow: 1;
+    }
+    #component-container {
+      flex-grow: 1;
+      overflow: auto;
+      position: relative;
+    }
+    .component-placeholder {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        font-size: 1.5rem;
+        color: #718096;
     }
   </style>
   <!-- 1. Load React, ReactDOM, and Babel -->
@@ -24,17 +58,67 @@
 
   <!-- 2. Define global configuration variables (as placeholders) -->
   <script>
-    // These are placeholders. The actual environment would provide these.
     window.__firebase_config = JSON.stringify({ apiKey: "...", authDomain: "...", projectId: "..." });
     window.__app_id = "canvas-prober-12345";
     window.__initial_auth_token = "placeholder.jwt.token";
   </script>
+
+  <!-- 3. Load all refactored components. Babel will transpile and execute them, attaching them to 'window'. -->
+  <script type="text/babel" src="GeminiAppCanvasCLI.jsx"></script>
+  <script type="text/babel" src="DangerousCodeTest.jsx"></script>
+  <script type="text/babel" src="GeminiAppCanvasAgent.jsx"></script>
+  <script type="text/babel" src="GeminiAppJavascriptIntrospector.jsx"></script>
+  <script type="text/babel" src="GeminiAppProbeReactApp.jsx"></script>
+  <script type="text/babel" src="GeminiCDNCanary.jsx"></script>
+
 </head>
 <body>
-  <div id="root"></div>
+  <div id="dashboard-root"></div>
 
-  <!-- 3. Load the self-rendering component. Babel will transpile and execute it. -->
-  <script type="text/babel" src="GeminiAppCanvasCLI.jsx"></script>
+  <!-- 4. Load the dashboard/loader application itself -->
+  <script type="text/babel">
+    const ALL_COMPONENTS = {
+      '': { name: 'Select a Component', component: null },
+      'GeminiAppCanvasCLIApp': { name: 'CLI', component: window.GeminiAppCanvasCLIApp },
+      'DangerousCodeTestApp': { name: 'Vulnerability Test Harness', component: window.DangerousCodeTestApp },
+      'GeminiAppCanvasAgentApp': { name: 'Canvas Agent', component: window.GeminiAppCanvasAgentApp },
+      'GeminiAppJavascriptIntrospectorApp': { name: 'JS Introspector', component: window.GeminiAppJavascriptIntrospectorApp },
+      'GeminiAppProbeReactAppApp': { name: 'Comprehensive Prober', component: window.GeminiAppProbeReactAppApp },
+      'GeminiCDNCanaryApp': { name: 'CDN Canary', component: window.GeminiCDNCanaryApp },
+    };
 
+    function Dashboard() {
+      const [selectedComponentKey, setSelectedComponentKey] = React.useState('');
+
+      const handleSelectionChange = (event) => {
+        setSelectedComponentKey(event.target.value);
+      };
+
+      const SelectedComponent = ALL_COMPONENTS[selectedComponentKey]?.component;
+
+      return (
+        <div id="dashboard-root">
+          <div className="loader-ui">
+            <label htmlFor="component-selector">Load Component:</label>
+            <select id="component-selector" value={selectedComponentKey} onChange={handleSelectionChange}>
+              {Object.entries(ALL_COMPONENTS).map(([key, { name }]) => (
+                <option key={key} value={key}>{name}</option>
+              ))}
+            </select>
+          </div>
+          <div id="component-container">
+            {SelectedComponent
+              ? React.createElement(SelectedComponent)
+              : <div className="component-placeholder">Please select a component to render.</div>
+            }
+          </div>
+        </div>
+      );
+    }
+
+    const container = document.getElementById('dashboard-root');
+    const root = ReactDOM.createRoot(container);
+    root.render(React.createElement(Dashboard));
+  </script>
 </body>
 </html>

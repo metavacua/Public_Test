@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+// React is loaded globally from the CDN.
 
 // --- CLI Internals ---
 // All command logic and helpers are moved to a global object
@@ -360,18 +360,18 @@ Respond with ONLY a JSON object in the format: {"plan": ["command_1", "command_2
 };
 
 // Main App Component
-export default function App() {
-  const [history, setHistory] = useState([
+window.GeminiAppCanvasAgentApp = function App() {
+  const [history, setHistory] = React.useState([
     {
       type: 'system',
       output: 'G\'day! The agent is now fully autonomous and thinks in plans. Give it a burl with `agent <your_goal>`.',
     },
   ]);
-  const [command, setCommand] = useState('');
-  const terminalRef = useRef(null);
-  const appRootRef = useRef(null);
+  const [command, setCommand] = React.useState('');
+  const terminalRef = React.useRef(null);
+  const appRootRef = React.useRef(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     window.cli_internals.initDB();
     const originalConsole = { ...console };
     const consoleMethods = ['log', 'warn', 'error', 'info'];
@@ -394,7 +394,7 @@ export default function App() {
     if (e.key === 'Enter') { e.preventDefault(); processCommand(command); setCommand(''); }
   };
   
-  useEffect(() => { terminalRef.current?.scrollTo(0, terminalRef.current.scrollHeight); }, [history]);
+  React.useEffect(() => { terminalRef.current?.scrollTo(0, terminalRef.current.scrollHeight); }, [history]);
 
   const renderHistoryEntry = (entry, index) => {
     const entryTypes = {
