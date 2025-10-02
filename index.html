@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React Component Runner</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #000;
+      color: #fff;
+      font-family: sans-serif;
+    }
+    #root {
+      height: 100%;
+    }
+  </style>
+  <!-- 1. Load React, ReactDOM, and Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- 2. Define global configuration variables (as placeholders) -->
+  <script>
+    // These are placeholders. The actual environment would provide these.
+    window.__firebase_config = JSON.stringify({ apiKey: "...", authDomain: "...", projectId: "..." });
+    window.__app_id = "canvas-prober-12345";
+    window.__initial_auth_token = "placeholder.jwt.token";
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- 3. Load the self-rendering component. Babel will transpile and execute it. -->
+  <script type="text/babel" src="GeminiAppCanvasCLI.jsx"></script>
+
+</body>
+</html>
