@@ -7,11 +7,13 @@ async def main():
     # This confirms that the specific component has rendered.
     components_to_verify = {
         'GeminiAppCanvasCLIApp': "text=/CLI restored/",
-        'DangerousCodeTestApp': "text=/Vulnerability Test Harness/",
+        'DangerousCodeTestApp': "h1:has-text('Vulnerability Test Harness')",
         'GeminiAppCanvasAgentApp': "text=/G'day! The agent is now fully autonomous/",
         'GeminiAppJavascriptIntrospectorApp': "h1:has-text('JavaScript Introspector')",
-        'GeminiAppProbeReactAppApp': "text=/Comprehensive Canvas Prober/",
-        'GeminiCDNCanaryApp': "text=/CDN Canary/",
+        'GeminiAppProbeReactAppApp': "h1:has-text('Comprehensive Canvas Prober')",
+        'GeminiCDNCanaryApp': "h1:has-text('CDN Canary')",
+        'JulesIntrospectorApp': "h1:has-text(\"Jules' Comprehensive Introspector\")",
+        'TestComponentApp': "h1:has-text('TestComponent Component')",
     }
 
     # Create a directory for screenshots if it doesn't exist
