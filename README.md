@@ -30,3 +30,33 @@ This project operates in a unique, CDN-based environment. It's crucial to unders
 *   **In-Browser Transpilation:** JSX is transpiled in the browser by Babel, which is loaded from a CDN. This is why the script tag in `index.html` has the type `text/babel`.
 
 These constraints are critical for ensuring that the application runs correctly in its intended environment. Please see the `AGENTS.md` file for more detailed instructions for agent developers.
+
+## Development Tools
+
+This repository includes a suite of tools to help automate the development process. These tools are located in the `tools` directory.
+
+### Component Manager
+
+The `component-manager.js` script helps you create and manage components.
+
+*   **Create a new component:**
+    ```bash
+    node tools/component-manager.js create-component <ComponentName>
+    ```
+    This will create a new, self-rendering React component in the `src` directory.
+
+*   **Set the active component:**
+    ```bash
+    node tools/component-manager.js set-active-component <ComponentName>
+    ```
+    This will update `index.html` to load and run the specified component.
+
+### Dependency Manager
+
+The `dependency-manager.js` script manages the CDN dependencies for the project.
+
+*   **Inject dependencies:**
+    ```bash
+    node tools/dependency-manager.js
+    ```
+    This will read the `dependencies.json` file and inject the necessary `<script>` tags into `index.html`.

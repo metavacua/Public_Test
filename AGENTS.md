@@ -60,3 +60,33 @@ if (container) {
     ```
 
 By following these instructions, you can avoid the common pitfalls of this unique environment and ensure that your contributions are successful.
+
+## Development Tools
+
+To streamline the development process, a suite of tools has been created in the `tools` directory. You should use these tools to manage components and dependencies.
+
+### Component Manager
+
+Use the `component-manager.js` script to create and manage components.
+
+*   **To create a new component:**
+    ```bash
+    node tools/component-manager.js create-component <ComponentName>
+    ```
+    This will create a new, self-rendering React component in the `src` directory with the correct boilerplate.
+
+*   **To set the active component for testing:**
+    ```bash
+    node tools/component-manager.js set-active-component <ComponentName>
+    ```
+    This will automatically update `index.html` to load the specified component.
+
+### Dependency Manager
+
+The `dependency-manager.js` script manages the project's CDN dependencies.
+
+*   **To inject/update dependencies:**
+    ```bash
+    node tools/dependency-manager.js
+    ```
+    This script reads the `dependencies.json` file and injects the required `<script>` tags into `index.html`. If you need to add or update a dependency, you should modify the `dependencies.json` file and then run this script.
